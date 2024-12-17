@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function communities(){
+        return $this->hasMany(Community::class);
+    }
+
+    public function threads(){
+        return $this->hasMany(Thread::class);
+    }
+
 }
