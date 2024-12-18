@@ -9,6 +9,15 @@ export default {
       colors: {
         dark: 'rgb(8, 14, 25)',
       },
+      animation:{
+        "notificationAnimation":"notificationAnimation 0.4s ease-in-out"
+      },
+      keyframes:{
+        notificationAnimation:{
+          "0%":{top:'0'},
+          "100%":{top:'5'},
+        }
+      }
     },
   },
   plugins: [],

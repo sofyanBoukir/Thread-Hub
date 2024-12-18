@@ -12,7 +12,7 @@ export const App = () => {
             <Route path='/' element={<Login />} />
             <Route path='/signUp' element={<Register />} />
             <Route path='/forgotPassword' element={<ForgotPassword />} />
-            <Route path='/resetPassword/:token' element={<ResetPassword />} />
+            <Route path='/reset-password/:token' element={<ResetPassword />} />
             <Route path='/verification' element={<Verification />} />
         </Routes>
     </BrowserRouter>

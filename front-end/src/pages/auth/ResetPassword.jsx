@@ -6,7 +6,7 @@ export const ResetPassword = () => {
   return (
     <div className='bg-dark w-[45%] mx-auto mt-20 px-6 py-8'>
         <div>
-            <h1 className='text-3xl font-semibold'>Reset password</h1>
+            <h1 className='text-3xl font-semibold'>Reset your password</h1>
             <p className='font-semibold'>Complete this credentials to reset your password</p>
         </div>
         <form>

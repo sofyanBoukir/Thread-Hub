@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Label } from '../../components/UI/Label'
 import { Input } from '../../components/UI/Input'
 import { Button } from '../../components/UI/Button'
+import { Notification } from '../../components/UI/Notification'
 
 export const Login = () => {
   return (
@@ -26,6 +27,9 @@ export const Login = () => {
                 </div>
             </div>
         </form>
+        {
+            <Notification />
+        }
     </div>
   )
 }
