@@ -10,7 +10,7 @@ export default {
         dark: 'rgb(8, 14, 25)',
       },
       animation:{
-        "notificationAnimation":"notificationAnimation 0.4s ease-in-out"
+        "notificationAnimation":"notificationAnimation 0.1s ease-in-out"
       },
       keyframes:{
         notificationAnimation:{
