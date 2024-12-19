@@ -21,14 +21,14 @@ class AuthController extends Controller
             return response()->json([
                 'loggedIn' => false,
                 'message' => 'Invalid credentials',
-            ]);
+            ],401);
         }
 
         return response()->json([
             'loggedIn' => true,
             'token' => $token,
             'user' => Auth::user(),
-        ]);
+        ],200);
     }
 
     public function sendVerificationCode(Request $request){
@@ -37,9 +37,8 @@ class AuthController extends Controller
             $userExists = User::where('email',$email)->exists();
             if($userExists){
                 return response()->json([
-                    "userExists" => true,
                     'message' => "User associed with this email already exists!",
-                ]);
+                ],401);
             }
             $firstName = $request->firstName;
             $verification_code = rand(100000,999999);
@@ -56,13 +55,13 @@ class AuthController extends Controller
 
             return response()->json([
                 "sended" => true,
-            ]);
+            ],200);
 
         } catch (Exception $ex) {
             return response()->json([
                 "sended" => false,
                 "message" => $ex->getMessage(),
-            ]);
+            ],401);
         }
     }
 
@@ -88,13 +87,12 @@ class AuthController extends Controller
 
             return response()->json([
                 "registred" => true,
-            ]);
+            ],200);
         }
 
         return response()->json([
-            "registred" => false,
             "message" => "Incorrect code or expired!",
-        ]);
+        ],401);
     }
 
     public function forgotPassword(Request $request){
@@ -102,9 +100,8 @@ class AuthController extends Controller
 
         if(!$userExists){
             return response()->json([
-                "userExists" => false,
                 "message" => "User not exist!",
-            ]);
+            ],401);
         }
 
         $status = Password::sendResetLink($request->only('email'));
@@ -116,9 +113,8 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            "sended" => false,
             "message" => __($status),
-        ]);
+        ],401);
     }
 
     public function resetPassword(Request $request){
@@ -134,11 +130,10 @@ class AuthController extends Controller
             return response()->json([
                 "reseted" => true,
                 "message" => __($status)
-            ]);
+            ],200);
         }
         return response()->json([
-            "reseted" => false,
             "message" => __($status)
-        ]);
+        ],401);
     }
 }

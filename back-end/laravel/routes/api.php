@@ -14,4 +14,5 @@ Route::prefix("auth")->group(function(){
     Route::post("/sendVerificationCode",[AuthController::class,'sendVerificationCode']);
     Route::post("/checkVerificationCode",[AuthController::class,'checkVerificationCode']);
     Route::post("/forgotPassword",[AuthController::class,'forgotPassword']);
+    Route::post("/resetPassword",[AuthController::class,"resetPassword"]);
 });
