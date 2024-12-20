@@ -56,11 +56,11 @@ export const ResetPassword = () => {
         }
     }
   return (
-    <div className='bg-dark w-[45%] mx-auto mt-20 px-6 py-8'>
+    <div className='bg-dark w-[90%] md:w-[45%] mx-auto mt-20 px-6 py-8'>
         <div>
             <h1 className='text-3xl font-semibold'>Reset your password</h1>
             <p className='font-semibold'>Complete this credentials to reset your password</p>
-            <Link className="font-semibold text-blue-500 underline" to={"/"}>Back to Login</Link>
+            <Link className="font-semibold text-blue-500 underline" to={"/login"}>Back to Login</Link>
         </div>
         <form onSubmit={handleSubmit}>
             <div className='mt-6 flex flex-col gap-4'>

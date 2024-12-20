@@ -41,7 +41,7 @@ export const ForgotPassword = () => {
         }
     }
   return (
-    <div className='bg-dark w-[45%] mx-auto mt-20 px-6 py-8'>
+    <div className='bg-dark w-[90%] md:w-[45%] mx-auto mt-20 px-6 py-8'>
         <div>
             <h1 className='text-3xl font-semibold'>Forgot password</h1>
             <p className='font-semibold'>Enter the email associed with your account!</p>

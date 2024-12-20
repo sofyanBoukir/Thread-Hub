@@ -37,7 +37,7 @@ export const Verification = ({formdata}) => {
             if(response.data.registred){
                 setRegistred(true);
                 setTimeout(() => {
-                    navigate("/")
+                    navigate("/login")
                 }, 3000);
             }
         } catch (error) {

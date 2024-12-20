@@ -54,13 +54,13 @@ export const Register = () => {
         }
     }
   return (
-    <div className='bg-dark w-[45%] mx-auto mt-20 px-6 py-8'>
+    <div className='bg-dark w-[90%] md:w-[45%] mx-auto mt-20 px-6 py-8'>
         {
             !verificationCodeSent ?
                     <>
                         <div>
                                 <h1 className='text-3xl font-semibold'>Sign up</h1>
-                                <p className='font-semibold'>Already have an account? <Link to={"/"} className='text-blue-500 underline'>Sign in</Link></p>
+                                <p className='font-semibold'>Already have an account? <Link to={"/login"} className='text-blue-500 underline'>Sign in</Link></p>
                             </div>
                             <form onSubmit={handleSubmit}>
                                 <div className='mt-6 flex flex-col gap-4'>

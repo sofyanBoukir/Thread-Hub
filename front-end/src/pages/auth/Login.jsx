@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Label } from '../../components/UI/Label'
 import { Input } from '../../components/UI/Input'
 import { Button } from '../../components/UI/Button'
@@ -14,6 +14,7 @@ export const Login = () => {
     });
     const [loading,setLoading] = useState(false);
     const [notification,setNotification] = useState({});
+    const navigate = useNavigate()
 
     const handleChange = (e) =>{
         const {name,value} = e.target;
@@ -31,7 +32,10 @@ export const Login = () => {
             const response = await checkUserLogin(formdata);
             setLoading(false);
             if(response.data.loggedIn){
-                setNotification({message:"Logged in successfullY",kind:"success"});
+                localStorage.setItem("token",response.data.token);
+                localStorage.setItem("authenticated",'true');
+                localStorage.setItem("user",response.data.user);
+                navigate("/")
             }
 
         } catch (error) {
@@ -45,7 +49,7 @@ export const Login = () => {
         }
     }
   return (
-    <div className='bg-dark w-[45%] mx-auto mt-20 px-6 py-8'>
+    <div className='bg-dark w-[90%] md:w-[45%] mx-auto mt-20 px-6 py-8'>
         <div>
             <h1 className='text-3xl font-semibold'>Sign in</h1>
             <p className='font-semibold'>Don't have an account? <Link to={"/signUp"} className='text-blue-500 underline'>Sign up</Link></p>
