@@ -6,6 +6,10 @@ import { ResetPassword } from './pages/auth/ResetPassword'
 import { Verification } from './pages/auth/Verification'
 import { ProtectHomeRoute } from './protectedRoutes/protectHomeRoute'
 import { Home } from './pages/main/Home'
+import { Search } from './pages/main/Search'
+import { Activity } from './pages/main/Activity'
+import { CreateThread } from './pages/main/CreateThread'
+import { Profile } from './pages/main/Profile'
 
 export const App = () => {
   return (
@@ -18,6 +22,10 @@ export const App = () => {
             <Route path='/verification' element={<Verification />} />
             <Route element={<ProtectHomeRoute />}>
               <Route path='/' element={<Home />} />
+              <Route path='/search' element={<Search />} />
+              <Route path='/activity' element={<Activity />} />
+              <Route path='/createThread' element={<CreateThread />} />
+              <Route path='/profile' element={<Profile />} />
             </Route>
         </Routes>
     </BrowserRouter>

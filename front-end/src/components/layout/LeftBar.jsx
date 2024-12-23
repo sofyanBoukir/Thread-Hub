@@ -3,7 +3,7 @@ import { SinglePage } from "./SingleComponents/SinglePage"
 
 export const LeftBar = () => {
   return (
-    <div className="bg-dark w-[18%] pt-14 lg:flex hidden flex-col gap-2 h-screen fixed">
+    <div className="bg-dark w-[18%] pt-14 lg:flex hidden flex-col gap-4 h-screen fixed font-sans">
         <SinglePage svg={<HomeIcon className="h-8 w-8" />} link={'/'} text={'Home'}/>
         <SinglePage svg={<MagnifyingGlassIcon className="h-8 w-8" />} link={'/search'} text={'Search'}/>
         <SinglePage svg={<HeartIcon className="h-8 w-8" />} link={'/activity'} text={'Activity'}/>

@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: 'rgb(8, 14, 25)',
+        dark: 'rgb(5, 18, 20)',
       },
       animation:{
         "notificationAnimation":"notificationAnimation 0.1s ease-in-out"
