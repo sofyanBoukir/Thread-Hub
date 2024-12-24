@@ -25,6 +25,26 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
             </div>
             <div>
                 <Label text='Community members'/>
+                <div className="flex flex-row gap-2 mb-4 flex-wrap">
+                    <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                        <span>sof1_boukir</span>
+                    </div>
+                    <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                        <span>sof1_boukir</span>
+                    </div>
+                    <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                        <span>sof1_boukir</span>
+                    </div>
+                    <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                        <span>sof1_boukir</span>
+                    </div>
+                    <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                        <span>sof1_boukir</span>
+                    </div>
+                    <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                        <span>sof1_boukir</span>
+                    </div>
+                </div>
                 <Input type='text' placeholder='Search for members'/>
                 <div className="flex flex-col gap-1 mt-2">
                     <SuggestedCommunityOrUser addMember={true}/>
@@ -34,7 +54,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
             </div>
         </div>
         <div className="flex float-end gap-2 mt-5 w-[100%] lg:w-[70%]">
-            <Button text='Cancel' bg={"bg-white text-black border border-black"} onClick={() => setHandleCreateCommunity(!handleCreateCommunity)}/>
+            <Button text='Cancel' color={'black'} bg={"bg-white border border-black"} onClick={() => setHandleCreateCommunity(!handleCreateCommunity)}/>
             <Button text='Create Community'/>
         </div>
     </div>

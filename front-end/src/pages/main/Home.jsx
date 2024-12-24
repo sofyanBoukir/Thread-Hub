@@ -12,7 +12,7 @@ export const Home = () => {
         <div className="flex flex-row pt-16 gap-1">
           <LeftBar />
           <div className="flex flex-row lg:ml-[18%] w-[100%]">
-            <div className="w-[100%] lg:w-[70%] mt-5 flex items-center flex-col gap-8">
+            <div className="w-[100%] lg:w-[70%] mt-5 flex items-center flex-col gap-8 mb-20">
               <Thread />
               <Thread />
               <Thread />

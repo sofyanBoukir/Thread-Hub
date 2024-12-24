@@ -21,7 +21,7 @@ export const Profile = () => {
         </div>
         <div className="flex flex-row pt-16 gap-1">
           <LeftBar />
-          <div className="flex flex-row lg:ml-[18%] w-[100%]">
+          <div className="flex flex-row lg:ml-[18%] w-[100%] mb-20">
             {
               !open?
                 <div className="w-[100%] lg:w-[70%] px-5 mt-5 flex flex-col gap-3">

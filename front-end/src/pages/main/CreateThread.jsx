@@ -12,7 +12,7 @@ export const CreateThread = () => {
         </div>
         <div className="flex flex-row pt-16 gap-1">
           <LeftBar />
-          <div className="flex flex-row lg:ml-[18%] w-[100%]">
+          <div className="flex flex-row lg:ml-[18%] w-[100%] mb-20">
             <div className="w-[100%] lg:w-[70%] px-5 mt-2 flex flex-col gap-8">
                 <div>
                     <h1 className="text-3xl font-semibold">Create Thread</h1>
