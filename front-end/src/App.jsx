@@ -10,6 +10,7 @@ import { Search } from './pages/main/Search'
 import { Activity } from './pages/main/Activity'
 import { CreateThread } from './pages/main/CreateThread'
 import { Profile } from './pages/main/Profile'
+import { Communities } from './pages/main/Communities'
 
 export const App = () => {
   return (
@@ -26,6 +27,7 @@ export const App = () => {
               <Route path='/activity' element={<Activity />} />
               <Route path='/createThread' element={<CreateThread />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='/communities' element={<Communities />} />
             </Route>
         </Routes>
     </BrowserRouter>
