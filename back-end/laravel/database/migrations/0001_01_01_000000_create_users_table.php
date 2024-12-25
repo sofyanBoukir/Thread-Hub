@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('username')->unique()->nullable();
             $table->string('profile_picture')->nullable();
-            $table->text('bio')->nullable();
+            $table->text('bio')->default('hi, I am using threads!')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
