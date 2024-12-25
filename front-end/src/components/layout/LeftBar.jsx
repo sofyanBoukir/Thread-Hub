@@ -10,7 +10,7 @@ export const LeftBar = () => {
         <SinglePage svg={<PencilSquareIcon className="h-8 w-8" />} link={'/createThread'} text={'Create thread'}/>
         <SinglePage svg={<UserGroupIcon className="h-8 w-8" />} link={'/communities'} text={'Communities'}/>
         <SinglePage svg={<UserIcon className="h-8 w-8" />} link={'/profile'} text={'Profile'}/>
-        <div className="flex gap-3 items-center px-5 py-2 fixed bottom-2 w-full cursor-pointer">
+        <div className="flex gap-3 items-center px-5 py-2 fixed bottom-2 w-[20%] cursor-pointer">
             <ArrowLeftStartOnRectangleIcon className="h-8 w-8" />
             <span className="text-lg ">Logout</span>
         </div>

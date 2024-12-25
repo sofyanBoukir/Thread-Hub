@@ -34,7 +34,7 @@ export const Login = () => {
             if(response.data.loggedIn){
                 localStorage.setItem("token",response.data.token);
                 localStorage.setItem("authenticated",'true');
-                localStorage.setItem("user",response.data.user);
+                localStorage.setItem("user",JSON.stringify(response.data.user));
                 navigate("/")
             }
 
@@ -42,7 +42,6 @@ export const Login = () => {
             setLoading(false)
             if(error.response && error.response.data.message){
                 setNotification({message:error.response.data.message,kind:"error"})
-                  
             }else{
                 setNotification({message:"Try again later",kind:"error"})   
             }
