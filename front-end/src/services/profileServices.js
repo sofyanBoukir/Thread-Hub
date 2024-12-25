@@ -8,3 +8,8 @@ export const editProfile = (data,token) =>{
     });
     return response;
 }
+
+export const viewUser = (username) =>{
+    const response = axios.get(`http://localhost:8000/api/profile/viewUserData?username=${username}`);
+    return response;
+}

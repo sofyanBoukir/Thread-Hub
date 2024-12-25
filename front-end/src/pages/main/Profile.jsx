@@ -13,9 +13,8 @@ export const Profile = () => {
   const openEditProfile = () => {
     setOpen(true);
   }
-  const userData = JSON.parse(localStorage.getItem("user"));
+  const userData = JSON.parse(localStorage.getItem("user"));  
   
-
     return (
       <div className="flex flex-col h-screen">
         <div className="fixed top-0 left-0 w-full z-10">

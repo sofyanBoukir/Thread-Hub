@@ -4,6 +4,7 @@ import { RightBar } from "../../components/layout/RightBar";
 import { BottomBar } from "../../components/layout/BottomBar";
 import { Thread } from "../../components/ThreadComponents/Thread";
 export const Home = () => {
+  
     return (
       <div className="flex flex-col h-screen">
         <div className="fixed top-0 left-0 w-full z-10">

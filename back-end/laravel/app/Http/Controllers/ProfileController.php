@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -30,7 +31,7 @@ class ProfileController extends Controller
                 $image_path = $user->profile_picture;
                 $relativePath = parse_url($image_path, PHP_URL_PATH);
                 $filePath = public_path($relativePath);
-                
+
                 if(File::exists($filePath)) {
                     File::delete($filePath);
                 }
@@ -55,6 +56,20 @@ class ProfileController extends Controller
             return response()->json([
                 "message" => $ex->getMessage()
             ], 500);
+        }
+    }
+
+    public function getUserData(Request $request){
+        try {
+            $user = User::where("username",$request->username)
+                        ->first();
+            return response()->json([
+                "userdata" => $user
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
         }
     }
 }

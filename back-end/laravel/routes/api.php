@@ -1,7 +1,9 @@
 <?php
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchUsersCommunities;
+use App\Http\Controllers\SuggestionsController;
+use App\Http\Controllers\ThreadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +22,17 @@ Route::prefix("auth")->group(function(){
 
 Route::prefix("profile")->group(function(){
     Route::post("/editProfile",[ProfileController::class,"editProfile"]);
+    Route::get("/viewUserData",[ProfileController::class,"getUserData"]);
+});
+
+Route::prefix("suggestions")->group(function(){
+    Route::get("/suggestionUsers",[SuggestionsController::class,"suggestionUsers"]);
+    Route::get("/suggestionCommunities",[SuggestionsController::class,"suggestionCommunities"]);
+});
+
+Route::get('/searchUsers',[SearchUsersCommunities::class,"getSearchedQuery"]);
+
+
+Route::prefix("thread")->group(function(){
+    Route::post("/postThread",[ThreadController::class,"createThread"]);
 });
