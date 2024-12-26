@@ -21,7 +21,9 @@ export const ViewUser = () => {
         if(response.data.userdata){
             setUserData(response.data.userdata);
             setLoading(true);
-            const response2 = await getUserThreads(userData.id);    
+            const response2 = await getUserThreads(response.data.userdata.id);   
+            console.log(response2);
+            
             if(response2.data.threads){  
               setThreads(response2.data.threads);  
               setLoading(false);
@@ -64,7 +66,7 @@ export const ViewUser = () => {
                     {
                       threads && threads.length ?
                         threads.map((thread) =>{
-                          return <Thread thread={thread} edit={true}/>
+                          return <Thread thread={thread}/>
                         })
                       :<span className="text-xl font-semibold">No threads posetd by this user!</span>
                     }

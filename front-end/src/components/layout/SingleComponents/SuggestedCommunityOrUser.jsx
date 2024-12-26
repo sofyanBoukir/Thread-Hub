@@ -1,7 +1,7 @@
 import { UserPlusIcon } from '@heroicons/react/24/outline'
 import image from '../../../../public/assets/testImage.png'
 import { useNavigate } from 'react-router-dom'
-export const SuggestedCommunityOrUser = ({addMember,user}) => {
+export const SuggestedCommunityOrUser = ({addMember,user,onAddMember}) => {
     const navigate = useNavigate()
   return (
     <div className='flex justify-between items-center gap-2 px-5'>
@@ -25,7 +25,8 @@ export const SuggestedCommunityOrUser = ({addMember,user}) => {
                 !addMember ?
                     <button className='bg-blue-600 text-white rounded-md px-3 py-1' onClick={() =>navigate(`/search/${user.username}`)}>View</button>
                     :
-                    <button className='bg-blue-600 text-white rounded-sm px-2 py-1 flex gap-2'>
+                    <button className='bg-blue-600 text-white rounded-sm px-2 py-1 flex gap-2' 
+                    onClick={() => onAddMember({id:user.id,username:user.username})}>
                         <UserPlusIcon className='w-4 h-4'/>
                     </button>
             }

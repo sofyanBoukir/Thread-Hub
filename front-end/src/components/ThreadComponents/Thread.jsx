@@ -9,7 +9,7 @@ export const Thread = ({thread,edit}) => {
   return (
         <div className='w-[95%] rounded-sm bg-dark px-3 py-2 font-sans'>
             <div className='flex flex-row gap-2'>
-                <img src={testImage} className='w-10 h-10 rounded-full'/>
+                <img src={thread.user.profile_picture} className='w-10 h-10 rounded-full'/>
                 <div>
                     <h1 className='text-lg font-semibold'>{thread.user.full_name}</h1>
                         <span className='text-sm'>{thread.title}</span>
