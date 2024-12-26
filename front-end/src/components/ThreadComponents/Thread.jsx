@@ -1,28 +1,30 @@
-import { BookmarkIcon, ChatBubbleOvalLeftEllipsisIcon, HeartIcon, ShareIcon } from '@heroicons/react/24/outline'
+import { ChatBubbleOvalLeftEllipsisIcon, HeartIcon, ShareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import testImage from '../../../public/assets/testImage.png'
 import { useState } from 'react'
 import { Comment } from './Comment'
 import { Button } from '../UI/Button'
-export const Thread = () => {
+import moment from 'moment'
+export const Thread = ({thread,edit}) => {
     const [handleComments,setHandleComments] = useState(false)
   return (
         <div className='w-[95%] rounded-sm bg-dark px-3 py-2 font-sans'>
             <div className='flex flex-row gap-2'>
                 <img src={testImage} className='w-10 h-10 rounded-full'/>
                 <div>
-                    <h1 className='text-lg font-semibold'>Soufian</h1>
-                        <span className='text-sm'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid maiores doloremque dolorum quod pariatur quisquam omnis,
-                        impedit, adipisci et quasi dolore natus quis hic non molestias. Hic quod aperiam in?</span>
+                    <h1 className='text-lg font-semibold'>{thread.user.full_name}</h1>
+                        <span className='text-sm'>{thread.title}</span>
                 </div>
             </div>
             <div className='ml-10 mt-4 flex gap-2 items-center'>
                 <HeartIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
                 <ChatBubbleOvalLeftEllipsisIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1} onClick={() => setHandleComments(!handleComments)}/>
-                <BookmarkIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
+                {
+                edit &&  <TrashIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
+                }
                 <ShareIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
             </div>      
             <div className='mt-2'>
-                <p className={`text-xs font-semibold text-gray-500 ${handleComments?'hidden':null}`}>22 hours ago.</p>
+                <p className={`text-xs font-semibold text-gray-500 ${handleComments?'hidden':null}`}>{moment(thread.created_at).fromNow()}</p>
             </div>
             {
                 handleComments?

@@ -7,17 +7,28 @@ import { useParams } from "react-router-dom";
 import { viewUser } from "../../services/profileServices";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import { getUserThreads } from "../../services/threadServices";
+import { CircularProgress } from "@mui/material";
 export const ViewUser = () => {
   
     const {username} = useParams();
     const [userData,setUserData] = useState({})
+    const [threads,setThreads] = useState([]);
+    const [loading,setLoading] = useState(false);
+
     const getUserData = async () =>{
         const response = await viewUser(username);
         if(response.data.userdata){
             setUserData(response.data.userdata);
+            setLoading(true);
+            const response2 = await getUserThreads(userData.id);    
+            if(response2.data.threads){  
+              setThreads(response2.data.threads);  
+              setLoading(false);
+            }
         }
     }
-
+  
     useEffect(() =>{
         getUserData();
     },[username])
@@ -38,7 +49,7 @@ export const ViewUser = () => {
                         <div>
                             <h1 className="text-2xl font-semibold">{userData.full_name}</h1>
                             <span className="font-semibold text-gray-500">@{userData.username}</span><br></br>
-                            <span className="font-semibold text-gray-500">joined at {moment(userData).format('DD-MM-YYYY')}</span>
+                            <span className="font-semibold text-gray-500">joined at {moment(userData.created_at).format('DD-MM-YYYY')}</span>
                         </div>
                     </div>
                 </div>
@@ -47,9 +58,16 @@ export const ViewUser = () => {
                 </div>
                 <hr className="h-px my-2 mx-6 bg-gray-200 border-0 dark:bg-gray-800"></hr>
                 <div className="w-[100%] lg:w-[100%] mt-5 flex items-center flex-col gap-8">
-                    {/* <Thread />
-                    <Thread />
-                    <Thread /> */}
+                    {
+                      loading && <CircularProgress />
+                    }
+                    {
+                      threads && threads.length ?
+                        threads.map((thread) =>{
+                          return <Thread thread={thread} edit={true}/>
+                        })
+                      :<span className="text-xl font-semibold">No threads posetd by this user!</span>
+                    }
                 </div>
             </div>
             <div className="lg:w-[30%]">

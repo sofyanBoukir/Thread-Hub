@@ -8,3 +8,13 @@ export const createThread = async (data,token) =>{
     });
     return response;
 }
+
+export const getUserThreads = async (id) =>{
+    const response = await axios.get(`http://localhost:8000/api/thread/getUserThreads?id=${id}`);
+    return response;
+}
+
+export const getHomeThreads = async () =>{
+    const response = await axios.get('http://localhost:8000/api/thread/getHomeThreads');
+    return response;
+}
