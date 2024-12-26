@@ -32,4 +32,29 @@ class ThreadController extends Controller
             ]);
         }
     }
+
+    public function getHomeThreads(){
+        $homeThreads = Thread::with("user")
+                            ->latest()->get();
+                            
+        return response()->json([
+            "threads" => $homeThreads,
+        ]);
+    }
+
+    public function getUserThreads(Request $request){
+        try {
+             $threads = Thread::where("user_id",$request->id)
+                            ->with("user")
+                            ->latest()->get();
+
+            return response()->json([
+                "threads" => $threads,
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ]);
+        }
+    }
 }

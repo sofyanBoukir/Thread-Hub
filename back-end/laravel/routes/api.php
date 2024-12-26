@@ -35,4 +35,6 @@ Route::get('/searchUsers',[SearchUsersCommunities::class,"getSearchedQuery"]);
 
 Route::prefix("thread")->group(function(){
     Route::post("/postThread",[ThreadController::class,"createThread"]);
+    Route::get("/getUserThreads",[ThreadController::class,"getUserThreads"]);
+    Route::get("/getHomeThreads",[ThreadController::class,"getHomeThreads"]);
 });
