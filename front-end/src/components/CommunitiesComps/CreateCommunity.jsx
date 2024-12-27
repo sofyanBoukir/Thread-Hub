@@ -6,21 +6,28 @@ import { SuggestedCommunityOrUser } from "../layout/SingleComponents/SuggestedCo
 import { useEffect, useState } from "react"
 import { searchUsers } from "../../services/suggesstionsServices"
 import { LinearProgress } from "@mui/material"
+import { createCommunity } from "../../services/communityServices"
 
 export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}) => {
 
     const [communityImage,setCommunityImage] = useState(null);
-    const [communityName,setCommunityName] = useState('');
+    const [communityDescription,setCommunityDescription] = useState('');
     const [communityMembers,setCommunityMembers] = useState([]);
 
     const [query,setQuery] = useState('');
     const [users,setUsers] = useState([]);
     const [loading,setLoading] = useState(false);
+    const [formLoading,setFormLoading] = useState(false);
+    const [notification,setNotification] = useState({});
 
     const hanldeAddMember = (user) =>{
         if(!communityMembers.some((member) => member.username === user.username)){
             setCommunityMembers([...communityMembers,user]);
         }
+    }
+
+    const handleDeleteMembers = (id) =>{
+        setCommunityMembers(communityMembers.filter((member,index) => index !== id))
     }
 
     const getSearchedUsers = async () =>{
@@ -32,9 +39,34 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
         }
     }
     
-    const hanldeSubmit = (e) =>{
+    const hanldeSubmit = async (e) =>{
         e.preventDefault()
+        const data = new FormData();
+        data.append("communityDescription",communityDescription);
+        if(communityImage !== null){
+            data.append("communityImage",communityImage);
+        }
+        data.append("communityMembers",communityMembers);
+        setFormLoading(true);
+
+        try {
+            const response = await createCommunity(data,localStorage.getItem("token"));
+            setFormLoading(false);
+            if(response.data.created){
+                setNotification({message:response.data.message,kind:"success"})
+            }
+        } catch (error) {
+            setFormLoading(false);
+            if(error.response.data.message){
+                setNotification({message:error.response.data.message,kind:"error"})
+            }else{
+                setNotification({message:"try again later",kind:"error"})
+            }
+        }
+        
     }
+
+
     useEffect(() =>{
     if(query !== ''){
         getSearchedUsers();
@@ -59,17 +91,17 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
                     </div>
                 </div>
                 <div>
-                    <Label text='Community name'/>
-                    <Input type='text' placeholder='Name of the community' value={communityName} onChange={(e) => setCommunityName(e.target.value)}/>
+                    <Label text='Community description'/>
+                    <Input type='text' placeholder='Description of the community' value={communityDescription} onChange={(e) => setCommunityDescription(e.target.value)}/>
                 </div>
                 <div>
                     <Label text='Community members'/>
                     <div className="flex flex-row gap-2 mb-4 flex-wrap">
                         {
                             communityMembers && communityMembers.length ?
-                                communityMembers.map((communityMember) =>{
+                                communityMembers.map((communityMember,index) =>{
                                     return <>
-                                            <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold">
+                                            <div className="bg-gray-100 px-3 rounded-sm border-2 text-sm font-semibold cursor-pointer" onClick={() => handleDeleteMembers(index)}>
                                                 <span>{communityMember.username}</span>
                                             </div>
                                         </>

@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchUsersCommunities;
 use App\Http\Controllers\SuggestionsController;
@@ -37,4 +38,8 @@ Route::prefix("thread")->group(function(){
     Route::post("/postThread",[ThreadController::class,"createThread"]);
     Route::get("/getUserThreads",[ThreadController::class,"getUserThreads"]);
     Route::get("/getHomeThreads",[ThreadController::class,"getHomeThreads"]);
+});
+
+Route::prefix("community")->group(function(){
+    Route::post("/createCommunity",[CommunityController::class,"createCommunity"]);
 });
