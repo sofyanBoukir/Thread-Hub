@@ -32,7 +32,7 @@ class ProfileController extends Controller
                 $relativePath = parse_url($image_path, PHP_URL_PATH);
                 $filePath = public_path($relativePath);
 
-                if(File::exists($filePath)) {
+                if(File::exists($filePath) && $image_path !== "http://localhost:8000/storage/users/userDefaultImage.jpg") {
                     File::delete($filePath);
                 }
 

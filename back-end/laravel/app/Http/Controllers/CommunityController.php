@@ -14,7 +14,6 @@ class CommunityController extends Controller
             $user = JWTAuth::parseToken()->authenticate();
             $request->validate([
                 "communityDescription" => "string|max:100",
-                "communityMembers" => "array",
             ]);
 
             if($request->hasFile("communityImage")){
@@ -32,12 +31,17 @@ class CommunityController extends Controller
                     "picture" => $fileName,
                     "role" => "admin",
                 ]);
-                foreach($request->communityMembers as $member){
-                    Community::create([
-                        "user_id" => $member->id,
-                        "role" => "member",
-                    ]);
+
+                if($request->has("communityMembers")){
+                    foreach($request->communityMembers as $member){
+                        Community::create([
+                            "user_id" => $member['id'],
+                            "description" => $request->communityDescription,
+                            "role" => "member",
+                        ]);
+                    }
                 }
+
                 return response()->json([
                     "created" => true,
                     "message" => "New community created successfully!",
@@ -50,11 +54,14 @@ class CommunityController extends Controller
                 "role" => "admin",
             ]);
 
-            foreach($request->communityMembers as $member){
-                Community::create([
-                    "user_id" => $member->id,
-                    "role" => "member",
-                ]);
+            if($request->has("communityMembers")){
+                foreach($request->communityMembers as $member){
+                    Community::create([
+                        "user_id" => $member['id'],
+                        "description" => $request->communityDescription,
+                        "role" => "member",
+                    ]);
+                }
             }
             return response()->json([
                 "created" => true,
