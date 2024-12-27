@@ -25,7 +25,7 @@ export const SuggestedCommunityOrUser = ({addMember,user,onAddMember}) => {
                 !addMember ?
                     <button className='bg-blue-600 text-white rounded-md px-3 py-1' onClick={() =>navigate(`/search/${user.username}`)}>View</button>
                     :
-                    <button className='bg-blue-600 text-white rounded-sm px-2 py-1 flex gap-2' 
+                    <button className='bg-blue-600 text-white rounded-sm px-2 py-1 flex gap-2' type='button'
                     onClick={() => onAddMember({id:user.id,username:user.username})}>
                         <UserPlusIcon className='w-4 h-4'/>
                     </button>

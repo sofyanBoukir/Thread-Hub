@@ -41,7 +41,7 @@ export const EditProfile = () => {
         }
         const response = await editProfile(formData,localStorage.getItem("token"));
         setLoading(false);
-        
+
         if(response.data.updated){
             localStorage.setItem("user",JSON.stringify(response.data.user));
             setNotification({kind:"success",message:"Profile Updated succesfully!"});

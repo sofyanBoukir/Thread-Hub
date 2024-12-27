@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { searchUsers } from "../../services/suggesstionsServices"
 import { LinearProgress } from "@mui/material"
 import { createCommunity } from "../../services/communityServices"
+import { Notification } from "../UI/Notification"
 
 export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}) => {
 
@@ -40,18 +41,24 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
     }
     
     const hanldeSubmit = async (e) =>{
-        e.preventDefault()
+        e.preventDefault();
+        setNotification(null);
         const data = new FormData();
         data.append("communityDescription",communityDescription);
         if(communityImage !== null){
             data.append("communityImage",communityImage);
         }
-        data.append("communityMembers",communityMembers);
+        communityMembers.forEach((member, index) => {
+            data.append(`communityMembers[${index}][id]`, member.id);
+        });
         setFormLoading(true);
 
         try {
             const response = await createCommunity(data,localStorage.getItem("token"));
             setFormLoading(false);
+           
+            console.log(response);
+            
             if(response.data.created){
                 setNotification({message:response.data.message,kind:"success"})
             }
@@ -63,9 +70,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
                 setNotification({message:"try again later",kind:"error"})
             }
         }
-        
     }
-
 
     useEffect(() =>{
     if(query !== ''){
@@ -109,7 +114,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
                             :null
                         }
                     </div>
-                    <Input type='text' placeholder='Search for members' value={query} onChange={(e) => setQuery(e.target.value)}/>
+                    <Input type='text' required={false} placeholder='Search for members' value={query} onChange={(e) => setQuery(e.target.value)}/>
                     <div className="flex flex-col gap-1 mt-2">
                         {
                             loading && <LinearProgress />
@@ -121,12 +126,15 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
                                 })
                             :null
                         }
+                        {
+                            notification && <Notification text={notification.message} kind={notification.kind} />
+                        }
                     </div>
                 </div>
             </div>
             <div className="flex float-end gap-2 mt-5 w-[100%] lg:w-[70%]">
                 <Button text='Cancel' color={'black'} bg={"bg-white border border-black"} onClick={() => setHandleCreateCommunity(!handleCreateCommunity)}/>
-                <Button text='Create Community'/>
+                <Button text='Create Community' loading={formLoading}/>
             </div>
         </form>
     </div>
