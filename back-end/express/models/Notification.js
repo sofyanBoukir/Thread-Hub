@@ -7,7 +7,6 @@ const notificationShema = new mongoose.Schema({
     receiverId : {type:Number, required:true},
     communityId : {type:Number},
     threadId : {type:Number},
-
 },{timestamps:true});
 
 module.exports = mongoose.model("Notification",notificationShema);
