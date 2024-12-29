@@ -1,5 +1,4 @@
 import { ChatBubbleOvalLeftEllipsisIcon, HeartIcon, ShareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import testImage from '../../../public/assets/testImage.png'
 import { useEffect, useState } from 'react'
 import { Comment } from './Comment'
 import { Button } from '../UI/Button'
@@ -7,7 +6,8 @@ import moment from 'moment'
 import { deleteComment, getThreadComments, postComment } from '../../services/commentServices'
 import { Notification } from '../UI/Notification'
 import { CircularProgress } from '@mui/material'
-export const Thread = ({thread,edit}) => {
+import { deleteThread } from '../../services/threadServices'
+export const Thread = ({thread}) => {
     const [handleComments,setHandleComments] = useState(false);
     const [comment,setComment] = useState('');
     const [comments,setComments] = useState([]);
@@ -15,12 +15,30 @@ export const Thread = ({thread,edit}) => {
     const [commentsLoading,setCommentsLoading] = useState(false);
     const [notification,setNotification] = useState(false);
     const userData = JSON.parse(localStorage.getItem("user"));
+    const [deleteLoading,setDeleteLoading] = useState(false);
 
     const handleDeleteComment = async (commentId) =>{
         const response = await deleteComment(commentId);
-        console.log(response);
-        
-        // await getComments()
+        await getComments()
+    }
+
+    const handleDeleteThread = async () =>{
+        setNotification(null)
+        setDeleteLoading(true);
+        try{
+            const response = await deleteThread(thread.id,localStorage.getItem("token"));
+            setDeleteLoading(false)
+            if(response.data.deleted){
+                setNotification({kind:"success",message:response.data.message});
+            }
+        }catch(error){
+            setDeleteLoading(false);
+            if(error.response.data.message){
+                setNotification({kind:"error",message:error.response.data.message});
+            }else{
+                setNotification({kind:"error",message:"Try again later"});
+            }
+        }
     }
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -75,7 +93,14 @@ export const Thread = ({thread,edit}) => {
                 <HeartIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
                 <ChatBubbleOvalLeftEllipsisIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1} onClick={() => setHandleComments(!handleComments)}/>
                 {
-                edit &&  <TrashIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
+                    userData.username === thread.user.username &&
+                    <>
+                        {
+                            !deleteLoading ?
+                                <TrashIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1} onClick={handleDeleteThread}/>
+                            : <CircularProgress size={"24px"} color='white'/>
+                        }
+                    </>                       
                 }
                 <ShareIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
             </div>      
@@ -94,13 +119,13 @@ export const Thread = ({thread,edit}) => {
                     {
                         commentsLoading && <CircularProgress size={"30px"} className='mx-auto'/>
                     }
-                    <div className='h-40 overflow-auto'>
+                    <div className={`${comments.length ?' h-40 ':null} overflow-auto`}>
                         {
                             comments && comments.length ?
                                 comments.map((comment) =>{
                                     return <Comment comment={comment} deleteComment={handleDeleteComment}/>
                                 })
-                            :null
+                            :<span className='flex justify-center font-semibold'>Be the first to comment on this thread!</span>
                         }
                     </div>
                 </div>

@@ -66,7 +66,7 @@ export const Profile = () => {
                     {
                       threads && threads.length ?
                         threads.map((thread) =>{
-                          return <Thread thread={thread} edit={true}/>
+                          return <Thread thread={thread}/>
                         })
                       :null
                     }

@@ -18,3 +18,12 @@ export const getHomeThreads = async () =>{
     const response = await axios.get('http://localhost:8000/api/thread/getHomeThreads');
     return response;
 }
+
+export const deleteThread = async (threadId,token) =>{
+    const response = await axios.delete(`http://localhost:8000/api/thread/deleteThread/${threadId}`,{
+        headers:{
+            "Authorization" : `Bearer ${token}`
+        }
+    });
+    return response;
+}

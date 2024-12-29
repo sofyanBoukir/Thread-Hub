@@ -11,6 +11,6 @@ export const getThreadComments = async (threadId) =>{
 }
 
 export const deleteComment = async (commentId) =>{
-    const response = await axios.delete(`http://localhost:3000/api/comments/deleteComment/${commentId}`);
+    const response = await axios.delete(`http://localhost:3000/api/comments/deleteComment?commentId=${commentId}`);
     return response;
 }
