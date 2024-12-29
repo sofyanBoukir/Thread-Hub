@@ -36,7 +36,7 @@ class ThreadController extends Controller
     public function getHomeThreads(){
         $homeThreads = Thread::with("user")
                             ->latest()->get();
-                            
+
         return response()->json([
             "threads" => $homeThreads,
         ]);
@@ -55,6 +55,27 @@ class ThreadController extends Controller
             return response()->json([
                 "message" => $ex->getMessage(),
             ]);
+        }
+    }
+
+    public function deleteThread($threadId){
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            $thread = Thread::where("user_id",$user->id)
+                                ->where("id",$threadId)
+                                ->first();
+
+            if($thread){
+                $thread->delete();
+                return response()->json([
+                    "deleted" => true,
+                    "message" => "Thread deleted successfully!"
+                ]);
+            }
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
         }
     }
 }

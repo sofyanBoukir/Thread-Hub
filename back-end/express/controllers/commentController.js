@@ -32,10 +32,9 @@ const insertComment = async (request,response) =>{
 
 const deleteComment = async (request,response) =>{
     const {commentId} = request.query;
-
     try{
-        const dComment = await Comment.deleteOne({_id:ObjectId(commentId)});
-        resp
+        const dComment = await Comment.deleteOne({_id:commentId});
+
         if(dComment.deletedCount === 1){
             response.status(200).json({
                 "message" : "deleted!",
