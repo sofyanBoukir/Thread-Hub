@@ -7,3 +7,5 @@ router.get("/:receiverId",getNotifications);
 router.post("/postLikeNotification",postLikeNotification);
 router.post("/postCommentNotification",postCommentNotification);
 router.post("/postCommunityInvitationNotification",postCommunityInvitationNotification);
+
+module.exports = router;

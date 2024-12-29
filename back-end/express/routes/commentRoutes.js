@@ -1,8 +1,12 @@
 const express = require("express")
-const { insertComment, getThreadComments } = require("../controllers/commentController")
+const { insertComment, getThreadComments, deleteComment } = require("../controllers/commentController")
+const multer = require("multer")
 
+const upload = multer()
 
 const router = express.Router()
 
-router.get("/:threadId",getThreadComments);
-router.post("/postComment",insertComment);
+router.get("",getThreadComments);
+router.post("/postComment",upload.none(),insertComment);
+router.delete("/deleteComment",deleteComment)
+module.exports = router;

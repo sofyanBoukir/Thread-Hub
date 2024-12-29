@@ -3,19 +3,23 @@ const Comment = require("../models/Comment")
 
 const getThreadComments = async (request,response) =>{
     const comments = await Comment.find({threadId:request.query.threadId});
-    response.status(200).json(comments)
+    response.status(200).json({
+        "comments" : comments,
+    })
 }
 
 const insertComment = async (request,response) =>{
-    const {content,threadId,posterId} = request.body;
+    const {content,threadId,posterUsername,posterProfile} = request.body;
     try{
         const comment = new Comment({
-            posterId,
+            posterUsername,
+            posterProfile,
             threadId,
             content,
         });
         await comment.save();
-        response().statu(200).json({
+        response.status(200).json({
+            "posted" : true,
             "message" : "new Comment posted on this thread",
         });
         
@@ -26,4 +30,22 @@ const insertComment = async (request,response) =>{
     }
 }
 
-module.exports = {getThreadComments,insertComment}
+const deleteComment = async (request,response) =>{
+    const {commentId} = request.query;
+
+    try{
+        const dComment = await Comment.deleteOne({_id:ObjectId(commentId)});
+        resp
+        if(dComment.deletedCount === 1){
+            response.status(200).json({
+                "message" : "deleted!",
+            });
+        }
+    }catch(error){
+        response.status(500).json({
+            "message" : error,
+        })
+    }
+}
+
+module.exports = {getThreadComments,insertComment,deleteComment}
