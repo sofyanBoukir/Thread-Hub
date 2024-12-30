@@ -78,4 +78,22 @@ class ThreadController extends Controller
             ],500);
         }
     }
+
+    public function getSingleThread(Request $request){
+        try {
+            $threadId = $request->query('threadId');
+            $thread = Thread::where("id",$threadId)
+                                ->with("user")
+                                ->first();
+
+            return response()->json([
+                "thread" => $thread,
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
+    }
 }
+

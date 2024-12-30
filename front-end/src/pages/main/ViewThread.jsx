@@ -2,27 +2,29 @@ import { Header } from "../../components/layout/Header"
 import { LeftBar } from "../../components/layout/LeftBar"
 import { RightBar } from "../../components/layout/RightBar";
 import { BottomBar } from "../../components/layout/BottomBar";
-import { ActivityComp } from "../../components/ActivityComp";
 import { useEffect, useState } from "react";
-import { getUserNotifications } from "../../services/notificationsServices";
+import { Thread } from "../../components/ThreadComponents/Thread";
+import { useParams } from "react-router-dom";
+import { getSingleThread } from "../../services/threadServices";
 import { CircularProgress } from "@mui/material";
-export const Activity = () => {
+export const ViewThread = () => {
 
-  const [notifications,setNotifications] = useState([]);
-  const userData = JSON.parse(localStorage.getItem("user"));
-  
   const [loading,setLoading] = useState(false);
+  const [thread,setThread] = useState(null)
+  const {threadId} = useParams()
 
-  const getNotifications = async () =>{
+  const getThread = async () =>{
     setLoading(true);
-    const response = await getUserNotifications(userData.id);
-    if(response.data.notifications){
-      setNotifications(response.data.notifications);
-      setLoading(false)
+    const response = await getSingleThread(threadId);
+    console.log(response);
+    
+    setLoading(false);
+    if(response.data.thread){
+      setThread(response.data.thread)
     }
   }
   useEffect(() =>{
-    getNotifications()
+    getThread()
   },[])
     return (
       <div className="flex flex-col h-screen">
@@ -36,18 +38,11 @@ export const Activity = () => {
                 <div>
                     <h1 className="text-3xl font-semibold">Activity</h1>
                     <div className="flex flex-col gap-5 mt-8">
-                        {/* <ActivityComp />
-                        <ActivityComp />
-                        <ActivityComp /> */}
                         {
-                          loading && <CircularProgress size={"25px"} />
+                            loading && <CircularProgress />
                         }
                         {
-                          notifications && notifications.length ?
-                            notifications.map((notification) =>{
-                              return <ActivityComp notification={notification}/>
-                            })
-                          :"No notifications you have!"
+                        thread && <Thread thread={thread} />
                         }
                     </div>
                 </div>

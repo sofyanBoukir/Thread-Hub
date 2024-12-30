@@ -39,6 +39,7 @@ Route::prefix("thread")->group(function(){
     Route::get("/getUserThreads",[ThreadController::class,"getUserThreads"]);
     Route::get("/getHomeThreads",[ThreadController::class,"getHomeThreads"]);
     Route::delete("/deleteThread/{threadId}",[ThreadController::class,"deleteThread"]);
+    Route::get("/getSingleThread",[ThreadController::class,"getSingleThread"]);
 });
 
 Route::prefix("community")->group(function(){

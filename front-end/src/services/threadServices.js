@@ -27,3 +27,8 @@ export const deleteThread = async (threadId,token) =>{
     });
     return response;
 }
+
+export const getSingleThread = async (threadId) =>{
+    const response = await axios.get(`http://localhost:8000/api/thread/getSingleThread?threadId=${threadId}`);
+    return response;
+}

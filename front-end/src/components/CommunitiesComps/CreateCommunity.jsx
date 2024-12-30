@@ -6,7 +6,7 @@ import { SuggestedCommunityOrUser } from "../layout/SingleComponents/SuggestedCo
 import { useEffect, useState } from "react"
 import { searchUsers } from "../../services/suggesstionsServices"
 import { LinearProgress } from "@mui/material"
-import { createCommunity } from "../../services/communityServices"
+import { createCommunity, sendCommunityInvitation } from "../../services/communityServices"
 import { Notification } from "../UI/Notification"
 
 export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}) => {
@@ -14,6 +14,8 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
     const [communityImage,setCommunityImage] = useState(null);
     const [communityDescription,setCommunityDescription] = useState('');
     const [communityMembers,setCommunityMembers] = useState([]);
+
+    const userData = JSON.parse(localStorage.getItem("user"))
 
     const [query,setQuery] = useState('');
     const [users,setUsers] = useState([]);
@@ -48,23 +50,30 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
         if(communityImage !== null){
             data.append("communityImage",communityImage);
         }
-        communityMembers.forEach((member, index) => {
-            data.append(`communityMembers[${index}][id]`, member.id);
-        });
+        
         setFormLoading(true);
 
         try {
             const response = await createCommunity(data,localStorage.getItem("token"));
             setFormLoading(false);
-           
-            console.log(response);
-            
+
             if(response.data.created){
                 setNotification({message:response.data.message,kind:"success"})
+
+                const sendInvitationData = new FormData();
+                sendInvitationData.append("posterUsername",userData.username);
+                sendInvitationData.append("posterProfile",userData.profile_picture);
+                sendInvitationData.append("communityId",response.data.community_id);
+        
+                
+                communityMembers.forEach((member, index) => {
+                    sendInvitationData.append(`communityMembers[${index}][id]`, member.id);
+                });
+                const response2 = await sendCommunityInvitation(sendInvitationData)
             }
         } catch (error) {
             setFormLoading(false);
-            if(error.response.data.message){
+            if(error.response &&  error.response.data && error.response.data.message){
                 setNotification({message:error.response.data.message,kind:"error"})
             }else{
                 setNotification({message:"try again later",kind:"error"})

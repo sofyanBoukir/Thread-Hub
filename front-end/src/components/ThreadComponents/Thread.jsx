@@ -7,6 +7,7 @@ import { deleteComment, getThreadComments, postComment } from '../../services/co
 import { Notification } from '../UI/Notification'
 import { CircularProgress } from '@mui/material'
 import { deleteThread } from '../../services/threadServices'
+import { postCommentNotification } from '../../services/notificationsServices'
 export const Thread = ({thread}) => {
     const [handleComments,setHandleComments] = useState(false);
     const [comment,setComment] = useState('');
@@ -52,6 +53,9 @@ export const Thread = ({thread}) => {
         
         try {
             const response = await postComment(formData);
+            formData.append("receiverId",thread.user.id);
+            const response2 = await postCommentNotification(formData);
+            
             setLoading(false);
 
             if(response.data.posted){

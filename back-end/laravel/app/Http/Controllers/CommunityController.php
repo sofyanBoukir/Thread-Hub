@@ -25,47 +25,30 @@ class CommunityController extends Controller
                 $fileName = time()."_".$file->getClientOriginalName();
                 $file->move('storage/communities',$fileName);
 
-                Community::create([
+                $community = Community::create([
                     "user_id" => $user->id,
                     "description" => $request->communityDescription,
                     "picture" => $fileName,
                     "role" => "admin",
                 ]);
 
-                if($request->has("communityMembers")){
-                    foreach($request->communityMembers as $member){
-                        Community::create([
-                            "user_id" => $member['id'],
-                            "description" => $request->communityDescription,
-                            "role" => "member",
-                        ]);
-                    }
-                }
-
                 return response()->json([
                     "created" => true,
                     "message" => "New community created successfully!",
+                    "community_id" => $community->id,
                 ]);
             }
 
-            Community::create([
+            $community = Community::create([
                 "user_id" => $user->id,
                 "description" => $request->communityDescription,
                 "role" => "admin",
             ]);
 
-            if($request->has("communityMembers")){
-                foreach($request->communityMembers as $member){
-                    Community::create([
-                        "user_id" => $member['id'],
-                        "description" => $request->communityDescription,
-                        "role" => "member",
-                    ]);
-                }
-            }
             return response()->json([
                 "created" => true,
                 "message" => "New community created successfully!",
+                "community_id" => $community->id,
             ]);
 
 
