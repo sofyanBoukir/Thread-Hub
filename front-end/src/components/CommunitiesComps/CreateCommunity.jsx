@@ -14,6 +14,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
     const [communityImage,setCommunityImage] = useState(null);
     const [communityDescription,setCommunityDescription] = useState('');
     const [communityMembers,setCommunityMembers] = useState([]);
+    const [disableButton,setDisableButton] = useState(false);
 
     const userData = JSON.parse(localStorage.getItem("user"))
 
@@ -70,6 +71,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
                     sendInvitationData.append(`communityMembers[${index}][id]`, member.id);
                 });
                 const response2 = await sendCommunityInvitation(sendInvitationData)
+                setDisableButton(true);
             }
         } catch (error) {
             setFormLoading(false);
@@ -109,7 +111,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
                     <Input type='text' placeholder='Description of the community' value={communityDescription} onChange={(e) => setCommunityDescription(e.target.value)}/>
                 </div>
                 <div>
-                    <Label text='Community members'/>
+                    <Label text='Invite members'/>
                     <div className="flex flex-row gap-2 mb-4 flex-wrap">
                         {
                             communityMembers && communityMembers.length ?
@@ -143,7 +145,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
             </div>
             <div className="flex float-end gap-2 mt-5 w-[100%] lg:w-[70%]">
                 <Button text='Cancel' color={'black'} bg={"bg-white border border-black"} onClick={() => setHandleCreateCommunity(!handleCreateCommunity)}/>
-                <Button text='Create Community' loading={formLoading}/>
+                <Button text='Create Community' loading={formLoading} disable={disableButton}/>
             </div>
         </form>
     </div>
