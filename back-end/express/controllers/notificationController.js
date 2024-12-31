@@ -51,7 +51,7 @@ const postCommunityInvitationNotification = async (request,response) =>{
         const communityMembers = [];
         if (request.body.communityMembers && Array.isArray(request.body.communityMembers)) {
             request.body.communityMembers.forEach((member) => {
-                const id = parseInt(member.id, 10); // Convert to number
+                const id = parseInt(member.id, 10);
                 if (!isNaN(id)) {
                     communityMembers.push(id);
                 } else {

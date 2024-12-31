@@ -58,4 +58,19 @@ class CommunityController extends Controller
             ]);
         }
     }
+
+
+    public function getUserCommunities(){
+        $user = JWTAuth::parseToken()->authenticate();
+        $communities = Community::where("user_id",$user->id)->get();
+        if(count($communities)){
+            return response()->json([
+                "communities" => $communities,
+            ]);
+        }
+
+        return response()->json([
+            "message" => "no communities with this user!"
+        ]);
+    }
 }
