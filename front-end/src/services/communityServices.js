@@ -13,3 +13,17 @@ export const sendCommunityInvitation = async (data) =>{
     const response = await axios.post("http://localhost:3000/api/notifications/postCommunityInvitationNotification",data);
     return response;
 }
+
+export const getUserCommunities = async (token) =>{
+    const response = await axios.get("http://localhost:8000/api/community/userCommunities",{
+        headers : {
+            "Authorization" : `Bearer ${token}`,
+        }
+    });
+    return response;
+}
+
+export const getCommunityDataSer = async (communityId) =>{
+    const response = await axios.get(`http://localhost:8000/api/community/getSingleCommunity?communityId=${communityId}`);
+    return response;
+}

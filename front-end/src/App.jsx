@@ -13,6 +13,7 @@ import { Profile } from './pages/main/Profile'
 import { Communities } from './pages/main/Communities'
 import { ViewUser } from './pages/main/ViewUser'
 import { ViewThread } from './pages/main/ViewThread'
+import { ViewCommunity } from './pages/main/ViewCommunity'
 
 export const App = () => {
   return (
@@ -32,6 +33,7 @@ export const App = () => {
               <Route path='/communities' element={<Communities />} />
               <Route path='/search/:username' element={<ViewUser />} />
               <Route path='/avtivity/viewThread/:threadId' element={<ViewThread />} />
+              <Route path='/communities/community/:communityId' element={<ViewCommunity />}/>
             </Route>
         </Routes>
     </BrowserRouter>

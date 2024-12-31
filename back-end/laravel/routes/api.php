@@ -45,4 +45,5 @@ Route::prefix("thread")->group(function(){
 Route::prefix("community")->group(function(){
     Route::post("/createCommunity",[CommunityController::class,"createCommunity"]);
     Route::get("/userCommunities",[CommunityController::class,"getUserCommunities"]);
+    Route::get("/getSingleCommunity",[CommunityController::class,"getCommunityData"]);
 });

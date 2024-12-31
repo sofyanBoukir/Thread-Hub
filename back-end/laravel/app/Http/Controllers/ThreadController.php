@@ -35,7 +35,9 @@ class ThreadController extends Controller
 
     public function getHomeThreads(){
         $homeThreads = Thread::with("user")
-                            ->latest()->get();
+                            ->where("community_id",null)
+                            ->latest()
+                            ->get();
 
         return response()->json([
             "threads" => $homeThreads,

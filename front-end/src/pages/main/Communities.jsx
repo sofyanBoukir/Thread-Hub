@@ -3,14 +3,30 @@ import { LeftBar } from "../../components/layout/LeftBar"
 import { RightBar } from "../../components/layout/RightBar";
 import { BottomBar } from "../../components/layout/BottomBar";
 import { Button } from "../../components/UI/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateCommunity } from "../../components/CommunitiesComps/CreateCommunity";
 import { SingleCommunity } from "../../components/CommunitiesComps/SingleCommunity";
 import { EditCommunity } from "../../components/CommunitiesComps/EditCommunity";
+import { getUserCommunities } from "../../services/communityServices";
+import { LinearProgress } from "@mui/material";
 export const Communities = () => {
     const [handleCreateCommunity,setHandleCreateCommunity] = useState(false)
     const [handleEditCommunity,setHandleEditCommunity] = useState(false)
+    const [loading,setLoading] = useState(false);
 
+    const [communities,setCommunities] = useState([]);
+
+    const getCommunities = async () =>{
+        setLoading(true);
+        const response = await getUserCommunities(localStorage.getItem("token"));
+        setLoading(false);
+        if(response.data.communities){
+            setCommunities(response.data.communities);
+        }
+    }
+    useEffect(() =>{
+        getCommunities()
+    },[])
     return (
         <>
             <div className={`flex flex-col h-screen ${handleCreateCommunity || handleEditCommunity ? 'blur pointer-events-none' : null}`}>
@@ -25,12 +41,17 @@ export const Communities = () => {
                             <h1 className="text-3xl font-semibold">Communities</h1>
                             <Button text={"Create new"} width={"w-[10%]"} onClick={() => setHandleCreateCommunity(true)}/>
                         </div>
+                        {
+                            loading && <LinearProgress /> 
+                        }
                         <div className="flex flex-row gap-5 flex-wrap">
-                            <SingleCommunity handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
-                            <SingleCommunity handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
-                            <SingleCommunity handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
-                            <SingleCommunity handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
-                            <SingleCommunity handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
+                            {
+                                communities && communities.length?
+                                    communities.map((community) =>{
+                                        return <SingleCommunity community={community} handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity} />
+                                    })
+                                :null
+                            }
                         </div>
                     </div>
                     <div className="lg:w-[30%]">

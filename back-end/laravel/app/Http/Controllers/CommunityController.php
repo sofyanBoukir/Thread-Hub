@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Community;
+use App\Models\Thread;
 use Exception;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -62,7 +63,8 @@ class CommunityController extends Controller
 
     public function getUserCommunities(){
         $user = JWTAuth::parseToken()->authenticate();
-        $communities = Community::where("user_id",$user->id)->get();
+        $communities = Community::where("user_id",$user->id)
+                                        ->with("user")->get();
         if(count($communities)){
             return response()->json([
                 "communities" => $communities,
@@ -72,5 +74,22 @@ class CommunityController extends Controller
         return response()->json([
             "message" => "no communities with this user!"
         ]);
+    }
+
+    public function getCommunityData(Request $request){
+        $communityId = $request->query('communityId');
+        $community = Community::where("id",$communityId)
+                                ->with("user")
+                                ->first();
+
+        $communityThreads = Thread::where("community_id",$communityId)
+                                ->with("user")
+                                ->get();
+
+        return response()->json([
+            "community" => $community,
+            "communityThreads" => $communityThreads
+        ]);
+
     }
 }

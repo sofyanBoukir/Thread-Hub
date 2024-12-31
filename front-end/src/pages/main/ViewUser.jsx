@@ -22,7 +22,6 @@ export const ViewUser = () => {
             setUserData(response.data.userdata);
             setLoading(true);
             const response2 = await getUserThreads(response.data.userdata.id);   
-            console.log(response2);
             
             if(response2.data.threads){  
               setThreads(response2.data.threads);  

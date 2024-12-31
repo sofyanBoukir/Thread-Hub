@@ -12,13 +12,19 @@ class Community extends Model
         "picture",
         "role",
     ];
-    
+
     public function user(){
         return $this->belongsTo(User::class);
     }
 
     public function threads(){
         return $this->hasMany(Thread::class);
+    }
+
+    public function getPictureAttribute($value){
+        return $value ?
+          asset('storage/communities/' . $value)
+        : asset('storage/communities/communityDefaultImage.png');
     }
 
 }

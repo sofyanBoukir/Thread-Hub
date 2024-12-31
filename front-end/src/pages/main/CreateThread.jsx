@@ -4,18 +4,44 @@ import { RightBar } from "../../components/layout/RightBar";
 import { BottomBar } from "../../components/layout/BottomBar";
 import { Button } from "../../components/UI/Button";
 import { Label } from "../../components/UI/Label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createThread } from "../../services/threadServices";
 import { Notification } from "../../components/UI/Notification";
+import { getUserCommunities } from "../../services/communityServices";
+import { CircularProgress } from "@mui/material";
 export const CreateThread = () => {
   const [thread,setThread] = useState('');
+  const [communityId,setCommunityId] = useState(0);
   const [loading,setLoading] = useState(false);
   const [notification,setNotification] = useState({});
+  const [communities,setCommunities] = useState([]);
+  const [commmunitiesLoading,setCommmunitiesLoading] = useState(false);
+
+  const getCommunities = async () =>{
+    try{
+      setCommmunitiesLoading(true);
+      const response = await getUserCommunities(localStorage.getItem('token'));
+      setCommmunitiesLoading(false);
+      if(response.data.communities){
+        setCommunities(response.data.communities);
+      }
+    }catch(error){  
+      console.log(error)
+    }
+  }
+
+  useEffect(() =>{
+    getCommunities();
+  },[]);
+
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
     const formData = new FormData()
     formData.append("thread",thread);
+    if(communityId !== 0){
+      formData.append("communityId",communityId);
+    }
     setNotification(null)
     setLoading(true);
     try {
@@ -46,6 +72,25 @@ export const CreateThread = () => {
                 <div>
                   <form onSubmit={handleSubmit}>
                     <h1 className="text-3xl font-semibold">Create Thread</h1>
+                    <br></br>
+                    <Label text={"Choose a community"} /><br></br>
+                    {
+                      !commmunitiesLoading ?
+                        <select className="bg-dark w-[100%] border-2 border-gray-800 px-3 py-1 rounded-sm" value={communityId} onChange={(e) => setCommunityId(e.target.value)}>
+                          <option value={0}>Post it to all</option>
+                          {
+                            communities && communities.length?
+                              communities.map((community) =>{
+                                return <option value={community.id}>{community.description}</option>
+                              })
+                            :null
+                          }
+                        </select> : null
+                    }
+                    {
+                      commmunitiesLoading && <CircularProgress />
+                    }
+                    <br></br>
                     <br></br>
                     <Label text="Content"/>
                     <textarea value={thread} onChange={(e) => setThread(e.target.value)} 
