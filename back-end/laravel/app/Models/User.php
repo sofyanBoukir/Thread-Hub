@@ -69,11 +69,12 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function communities(){
-        return $this->hasMany(Community::class);
+        return $this->belongsToMany(Community::class, 'community_members');
     }
 
     public function threads(){
         return $this->hasMany(Thread::class);
     }
+
 
 }

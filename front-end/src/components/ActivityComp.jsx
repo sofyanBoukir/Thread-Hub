@@ -1,12 +1,19 @@
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./UI/Button";
+import { useState } from "react";
 
 export const ActivityComp = ({notification}) => {
   const userData = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate()
+  const [loading,setLoading] = useState(false);
+
+  const acceptInvitation = async () =>{
+    const response = await accept({communityId:notification.communityId,userId:userData.userId});
+  }
   return (
-    <div className='bg-dark rounded-md flex justify-between items-center px-5 py-3 hover:bg-black cursor-pointer duration-200 items-center' onClick={() => navigate(`/avtivity/viewThread/${notification.threadId}`)}>
+    <div className='bg-dark rounded-md flex justify-between items-center px-5 py-3 hover:bg-black cursor-pointer duration-200' 
+    onClick={() => notification.notificationType === 'comment' || notification.notificationType === 'like'?navigate(`/avtivity/viewThread/${notification.threadId}`): navigate(`/communities/community/${notification.communityId}`)}>
         <div className="flex gap-2 items-center">
           <img src={notification.posterProfile} className='h-8 w-8 rounded-full'/>
           <div>
@@ -17,7 +24,10 @@ export const ActivityComp = ({notification}) => {
         <div>
           {
             notification.notificationType === 'communityInvitation'?
-              <Button text={"Accept"} />
+              <Button text={"Accept"} onClick={(event) => {
+                  event.stopPropagation(); 
+                  alert("cc");
+              }}/>
             :null
           }
         </div>

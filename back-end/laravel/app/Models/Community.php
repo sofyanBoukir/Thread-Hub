@@ -13,8 +13,8 @@ class Community extends Model
         "role",
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function users(){
+        return $this->belongsToMany(User::class, 'community_members');
     }
 
     public function threads(){

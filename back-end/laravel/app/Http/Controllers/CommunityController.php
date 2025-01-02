@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Community;
+use App\Models\CommunityUser;
 use App\Models\Thread;
 use Exception;
 use Illuminate\Http\Request;
@@ -27,10 +28,8 @@ class CommunityController extends Controller
                 $file->move('storage/communities',$fileName);
 
                 $community = Community::create([
-                    "user_id" => $user->id,
                     "description" => $request->communityDescription,
                     "picture" => $fileName,
-                    "role" => "admin",
                 ]);
 
                 return response()->json([
@@ -41,9 +40,7 @@ class CommunityController extends Controller
             }
 
             $community = Community::create([
-                "user_id" => $user->id,
                 "description" => $request->communityDescription,
-                "role" => "admin",
             ]);
 
             return response()->json([
@@ -90,6 +87,28 @@ class CommunityController extends Controller
             "community" => $community,
             "communityThreads" => $communityThreads
         ]);
+    }
+
+    public function acceptCommunityInvitation(Request $request){
+        try {
+            $request->validate([
+                "user_id" => "required",
+            ]);
+
+            CommunityUser::create([
+                "user_id" => $request->userId,
+                "community_id" => $request->communityId,
+            ]);
+
+            return response()->json([
+                "message" => "Accepted successfully!",
+            ],200);
+
+        } catch (Exception $ex) {
+            return response()->json([
+                "message" => $ex->getMessage(),
+            ],500);
+        }
 
     }
 }

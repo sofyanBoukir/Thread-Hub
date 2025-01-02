@@ -48,6 +48,7 @@ class ThreadController extends Controller
         try {
              $threads = Thread::where("user_id",$request->id)
                             ->with("user")
+                            ->with("community")
                             ->latest()->get();
 
             return response()->json([

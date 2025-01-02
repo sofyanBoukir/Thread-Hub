@@ -8,6 +8,7 @@ import { Notification } from '../UI/Notification'
 import { CircularProgress } from '@mui/material'
 import { deleteThread } from '../../services/threadServices'
 import { postCommentNotification } from '../../services/notificationsServices'
+import { Link } from 'react-router-dom'
 export const Thread = ({thread}) => {
     const [handleComments,setHandleComments] = useState(false);
     const [comment,setComment] = useState('');
@@ -108,8 +109,16 @@ export const Thread = ({thread}) => {
                 }
                 <ShareIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
             </div>      
-            <div className='mt-2'>
+            <div className='mt-2 flex gap-10'>
                 <p className={`text-xs font-semibold text-gray-500 ${handleComments?'hidden':null}`}>{moment(thread.created_at).fromNow()}</p>
+                {
+                    thread.community?
+                        <div className='flex items-center gap-2'>
+                            <img src={thread.community.picture} className='w-5 h-5 rounded-full'/>
+                            <Link className='text-gray-700 text-sm font-semibold' to={`/communities/community/${thread.community.id}`}>{thread.community.description}</Link>
+                        </div>
+                    :null
+                }
             </div>
             {
                 handleComments?

@@ -27,3 +27,8 @@ export const getCommunityDataSer = async (communityId) =>{
     const response = await axios.get(`http://localhost:8000/api/community/getSingleCommunity?communityId=${communityId}`);
     return response;
 }
+
+export const acceptCommunityInvitation = async (data) =>{
+    const response = await axios.post("http://localhost:8000/api/community/acceptCommunityInvitation",data);
+    return response;
+}
