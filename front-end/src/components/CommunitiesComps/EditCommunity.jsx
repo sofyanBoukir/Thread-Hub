@@ -6,7 +6,9 @@ import imageTest from '../../../public/assets/testImage.png'
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { SuggestedCommunityOrUser } from "../layout/SingleComponents/SuggestedCommunityOrUser"
 import { useState } from "react"
-export const EditCommunity = ({handleEditCommunity,setHandleEditCommunity}) => {
+export const EditCommunity = ({community,handleEditCommunity,setHandleEditCommunity}) => {
+    console.log(community);
+    
     const [openInviteMembers,setOpenInviteMembers] = useState(false);
   return (
     <div className="absolute top-20 text-black blur-none bg-white rounded-md p-5 w-[90%] lg:w-[50%] mx-auto">

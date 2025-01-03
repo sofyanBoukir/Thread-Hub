@@ -11,7 +11,7 @@ export const ActivityComp = ({notification}) => {
   const navigate = useNavigate()
   const [loading,setLoading] = useState(false);
   const [nnotification,setNotification] = useState(false);
-  
+  const [disableButton,setDisableButton] = useState(false);
   
   const acceptInvitation = async () =>{
     setLoading(true);
@@ -25,7 +25,8 @@ export const ActivityComp = ({notification}) => {
       setLoading(false);
       if(response.status === 200){
         setNotification({type:'success',message:response.data.message});
-        const response = await deleteNotification(notification._id);
+        const response2 = await deleteNotification(notification._id);
+        setDisableButton(true);
       }
       
     }catch(error){
@@ -46,7 +47,7 @@ export const ActivityComp = ({notification}) => {
         <div>
           {
             notification.notificationType === 'communityInvitation'?
-              <Button text={"Accept"} loading={loading} onClick={(event) => {
+              <Button text={"Accept"} loading={loading} disable={disableButton} onClick={(event) => {
                   event.stopPropagation(); 
                   acceptInvitation()
               }}/>

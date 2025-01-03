@@ -107,7 +107,6 @@ export const Thread = ({thread}) => {
                         }
                     </>                       
                 }
-                <ShareIcon className='text-gray-500 h-6 w-6 cursor-pointer' strokeWidth={1}/>
             </div>      
             <div className='mt-2 flex gap-10'>
                 <p className={`text-xs font-semibold text-gray-500 ${handleComments?'hidden':null}`}>{moment(thread.created_at).fromNow()}</p>

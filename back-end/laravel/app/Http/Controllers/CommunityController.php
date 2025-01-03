@@ -53,7 +53,7 @@ class CommunityController extends Controller
             ]);
 
             CommunityMember::create([
-                "user_id" => $request->$user->id,
+                "user_id" => $user->id,
                 "community_id" => $community->id,
                 "role" => "admin"
             ]);
@@ -77,6 +77,7 @@ class CommunityController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $communities = User::where("id",$user->id)
                             ->with("communities")
+                            ->latest()
                             ->get();
 
         if(count($communities)){

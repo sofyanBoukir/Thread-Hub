@@ -13,8 +13,8 @@ export const Communities = () => {
     const [handleCreateCommunity,setHandleCreateCommunity] = useState(false)
     const [handleEditCommunity,setHandleEditCommunity] = useState(false)
     const [loading,setLoading] = useState(false);
-
     const [communities,setCommunities] = useState([]);
+
 
     const getCommunities = async () =>{
         setLoading(true);
@@ -50,7 +50,7 @@ export const Communities = () => {
                             {
                                 communities && communities.length?
                                     communities.map((community) =>{
-                                        return <SingleCommunity community={community} handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity} />                                        
+                                        return <SingleCommunity community={community} setHandleEditCommunity={setHandleEditCommunity} />                                        
                                     })
                                 :"No communities you have"
                             }

@@ -4,7 +4,7 @@ import imageTest from '../../../public/assets/testImage.png'
 import { Button } from '../UI/Button'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
-export const SingleCommunity = ({community,handleEditCommunity,setHandleEditCommunity}) => {
+export const SingleCommunity = ({community,editCommunity,setHandleEditCommunity}) => {
     const navigate = useNavigate();
   return (
     <div className='bg-dark w-[100%] lg:w-[48%] rounded-sm px-4 py-2'>
