@@ -84,6 +84,22 @@ const postCommunityInvitationNotification = async (request,response) =>{
     }
 }
 
+const deleteNotification = async (request,response) =>{
+    const {notificationId} = request.query;
+        try{
+            const dNotification = await Notification.deleteOne({_id:notificationId});
+    
+            if(dNotification.deletedCount === 1){
+                response.status(200).json({
+                    "message" : "deleted!",
+                });
+            }
+        }catch(error){
+            response.status(500).json({
+                "message" : error,
+            })
+        }
+}
 const getNotifications = async (request,response) =>{
     const receiverId = request.query.receiverId;
     const notifications = await Notification.find({receiverId});
@@ -92,4 +108,4 @@ const getNotifications = async (request,response) =>{
     })
 }
 
-module.exports = {getNotifications,postLikeNotification,postCommentNotification,postCommunityInvitationNotification};
+module.exports = {getNotifications,postLikeNotification,postCommentNotification,postCommunityInvitationNotification,deleteNotification};

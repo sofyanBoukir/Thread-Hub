@@ -13,8 +13,8 @@ class Community extends Model
         "role",
     ];
 
-    public function users(){
-        return $this->belongsToMany(User::class, 'community_members');
+    public function members(){
+        return $this->belongsToMany(User::class, 'community_members')->withPivot("role");
     }
 
     public function threads(){

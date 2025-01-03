@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Community;
+use App\Models\CommunityMember;
 use App\Models\CommunityUser;
 use App\Models\Thread;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -32,6 +34,13 @@ class CommunityController extends Controller
                     "picture" => $fileName,
                 ]);
 
+
+                CommunityMember::create([
+                    "user_id" => $user->id,
+                    "community_id" => $community->id,
+                    "role" => "admin"
+                ]);
+
                 return response()->json([
                     "created" => true,
                     "message" => "New community created successfully!",
@@ -41,6 +50,12 @@ class CommunityController extends Controller
 
             $community = Community::create([
                 "description" => $request->communityDescription,
+            ]);
+
+            CommunityMember::create([
+                "user_id" => $request->$user->id,
+                "community_id" => $community->id,
+                "role" => "admin"
             ]);
 
             return response()->json([
@@ -60,8 +75,10 @@ class CommunityController extends Controller
 
     public function getUserCommunities(){
         $user = JWTAuth::parseToken()->authenticate();
-        $communities = Community::where("user_id",$user->id)
-                                        ->with("user")->get();
+        $communities = User::where("id",$user->id)
+                            ->with("communities")
+                            ->get();
+
         if(count($communities)){
             return response()->json([
                 "communities" => $communities,
@@ -76,7 +93,7 @@ class CommunityController extends Controller
     public function getCommunityData(Request $request){
         $communityId = $request->query('communityId');
         $community = Community::where("id",$communityId)
-                                ->with("user")
+                                ->with("members")
                                 ->first();
 
         $communityThreads = Thread::where("community_id",$communityId)
@@ -89,15 +106,27 @@ class CommunityController extends Controller
         ]);
     }
 
+    public function getCommunityMembers(Request $request){
+        $members = Community::where("id",2)
+                        ->with("members")
+                        ->get();
+
+        return response()->json([
+            "members" => $members
+        ]);
+    }
+
+
     public function acceptCommunityInvitation(Request $request){
         try {
             $request->validate([
                 "user_id" => "required",
             ]);
 
-            CommunityUser::create([
-                "user_id" => $request->userId,
-                "community_id" => $request->communityId,
+            CommunityMember::create([
+                "user_id" => $request->user_id,
+                "community_id" => $request->community_id,
+                "role" => "member"
             ]);
 
             return response()->json([

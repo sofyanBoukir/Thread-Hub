@@ -57,6 +57,7 @@ export const CreateCommunity = ({handleCreateCommunity,setHandleCreateCommunity}
         try {
             const response = await createCommunity(data,localStorage.getItem("token"));
             setFormLoading(false);
+            console.log(response)
 
             if(response.data.created){
                 setNotification({message:response.data.message,kind:"success"})

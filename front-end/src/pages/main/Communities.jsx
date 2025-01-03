@@ -19,13 +19,15 @@ export const Communities = () => {
     const getCommunities = async () =>{
         setLoading(true);
         const response = await getUserCommunities(localStorage.getItem("token"));
+        
         setLoading(false);
         if(response.data.communities){
-            setCommunities(response.data.communities);
+            setCommunities(response.data.communities[0].communities);            
         }
     }
+
     useEffect(() =>{
-        getCommunities()
+        getCommunities();
     },[])
     return (
         <>
@@ -48,9 +50,9 @@ export const Communities = () => {
                             {
                                 communities && communities.length?
                                     communities.map((community) =>{
-                                        return <SingleCommunity community={community} handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity} />
+                                        return <SingleCommunity community={community} handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity} />                                        
                                     })
-                                :null
+                                :"No communities you have"
                             }
                         </div>
                     </div>

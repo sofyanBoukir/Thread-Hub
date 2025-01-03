@@ -2,14 +2,36 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./UI/Button";
 import { useState } from "react";
+import { acceptCommunityInvitation } from "../services/communityServices";
+import { Notification } from "./UI/Notification";
+import { deleteNotification } from "../services/notificationsServices";
 
 export const ActivityComp = ({notification}) => {
   const userData = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate()
   const [loading,setLoading] = useState(false);
-
+  const [nnotification,setNotification] = useState(false);
+  
+  
   const acceptInvitation = async () =>{
-    const response = await accept({communityId:notification.communityId,userId:userData.userId});
+    setLoading(true);
+    try{
+      const formData = new FormData()
+      formData.append("community_id",notification.communityId);
+      formData.append("user_id",userData.id);
+
+      const response = await acceptCommunityInvitation(formData);
+      
+      setLoading(false);
+      if(response.status === 200){
+        setNotification({type:'success',message:response.data.message});
+        const response = await deleteNotification(notification._id);
+      }
+      
+    }catch(error){
+      setLoading(false)
+      console.log(error);
+    }
   }
   return (
     <div className='bg-dark rounded-md flex justify-between items-center px-5 py-3 hover:bg-black cursor-pointer duration-200' 
@@ -24,11 +46,14 @@ export const ActivityComp = ({notification}) => {
         <div>
           {
             notification.notificationType === 'communityInvitation'?
-              <Button text={"Accept"} onClick={(event) => {
+              <Button text={"Accept"} loading={loading} onClick={(event) => {
                   event.stopPropagation(); 
-                  alert("cc");
+                  acceptInvitation()
               }}/>
             :null
+          }
+          {
+            nnotification && <Notification kind={nnotification.type} text={nnotification.message} />
           }
         </div>
     </div>

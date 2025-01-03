@@ -21,10 +21,12 @@ export const CreateThread = () => {
     try{
       setCommmunitiesLoading(true);
       const response = await getUserCommunities(localStorage.getItem('token'));
+      console.log(response);
       setCommmunitiesLoading(false);
       if(response.data.communities){
-        setCommunities(response.data.communities);
+        setCommunities(response.data.communities[0].communities);
       }
+      
     }catch(error){  
       console.log(error)
     }
@@ -79,7 +81,7 @@ export const CreateThread = () => {
                         <select className="bg-dark w-[100%] border-2 border-gray-800 px-3 py-1 rounded-sm" value={communityId} onChange={(e) => setCommunityId(e.target.value)}>
                           <option value={0}>Post it to all</option>
                           {
-                            communities && communities.length?
+                            communities && communities.length ?
                               communities.map((community) =>{
                                 return <option value={community.id}>{community.description}</option>
                               })

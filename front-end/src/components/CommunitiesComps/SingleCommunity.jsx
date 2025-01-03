@@ -3,6 +3,7 @@ import communityImage from '../../../public/assets/communityDefaultImage.png'
 import imageTest from '../../../public/assets/testImage.png'
 import { Button } from '../UI/Button'
 import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
 export const SingleCommunity = ({community,handleEditCommunity,setHandleEditCommunity}) => {
     const navigate = useNavigate();
   return (
@@ -14,7 +15,7 @@ export const SingleCommunity = ({community,handleEditCommunity,setHandleEditComm
                 </div>
                 <div>
                     <p className="font-semibold">{community.description?community.description.substr(0,20):null}</p>
-                    <span className="text-gray-500 font-semibold pr-5 cursor-pointer">{community.user?community.user.username:null}</span>
+                    <span className="text-gray-500 font-semibold pr-5 cursor-pointer">Created {moment(community.created_at).fromNow()}</span>
                 </div>
             </div>
             <div>

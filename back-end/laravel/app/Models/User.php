@@ -69,7 +69,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function communities(){
-        return $this->belongsToMany(Community::class, 'community_members');
+        return $this->belongsToMany(Community::class, 'community_members')->withPivot("role");
     }
 
     public function threads(){

@@ -36,9 +36,6 @@ export const Activity = () => {
                 <div>
                     <h1 className="text-3xl font-semibold">Activity</h1>
                     <div className="flex flex-col gap-5 mt-8">
-                        {/* <ActivityComp />
-                        <ActivityComp />
-                        <ActivityComp /> */}
                         {
                           loading && <CircularProgress size={"25px"} />
                         }

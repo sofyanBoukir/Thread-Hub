@@ -51,7 +51,6 @@ export const ViewCommunity = () => {
                                     </div>
                                     <div>
                                         <h1 className="text-2xl font-semibold">{communityData.description?communityData.description.substr(0,30):null}</h1>
-                                        <span className="font-semibold text-gray-500">Created by <Link to={`/search/${communityData.user?communityData.user.username:null}`} className="text-blue-600">{communityData.user?communityData.user.username:null}</Link></span><br></br>
                                         <span className="font-semibold text-gray-500">Created at {moment(communityData.created_at).format('DD-MM-YYYY')}</span>
                                     </div>
                                 </>
