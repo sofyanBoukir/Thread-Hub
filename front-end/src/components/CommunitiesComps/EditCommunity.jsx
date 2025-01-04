@@ -5,11 +5,28 @@ import { UserPlusIcon } from "@heroicons/react/24/solid"
 import imageTest from '../../../public/assets/testImage.png'
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { SuggestedCommunityOrUser } from "../layout/SingleComponents/SuggestedCommunityOrUser"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { getMembers } from "../../services/communityServices"
+import { CircularProgress } from "@mui/material"
+import moment from "moment"
 export const EditCommunity = ({community,handleEditCommunity,setHandleEditCommunity}) => {
-    console.log(community);
     
     const [openInviteMembers,setOpenInviteMembers] = useState(false);
+    const [communityMembers,setCommunityMembers] = useState([]);
+    const [membersLoading,setMembersLoading] = useState(false);
+
+    const getCommunityMembers = async () =>{
+        setMembersLoading(true);
+        const response = await getMembers(community.id);
+        setMembersLoading(false);
+        if(response.data.members){
+            setCommunityMembers(response.data.members[0].members);
+            console.log(response.data.members[0].members);
+        }
+    }
+    useEffect(() =>{
+        getCommunityMembers();
+    },[])
   return (
     <div className="absolute top-20 text-black blur-none bg-white rounded-md p-5 w-[90%] lg:w-[50%] mx-auto">
         <div className="flex flex-row items-center justify-between">
@@ -22,7 +39,7 @@ export const EditCommunity = ({community,handleEditCommunity,setHandleEditCommun
         <div className="mt-7 flex flex-col gap-5">
             <div>
                 <Label text={"Community name"}/>
-                <Input type='text' placeholder='Name of the community'/>
+                <Input type='text' placeholder={community.description}/>
             </div>
             {
                 openInviteMembers ? 
@@ -59,41 +76,51 @@ export const EditCommunity = ({community,handleEditCommunity,setHandleEditCommun
             }
             <div>
                 <Label text={"Community members"}/>
-                <table className="w-full table-auto border-2 rounded-sm border-gray-300">
-                    <thead>
-                        <tr>
-                            <th className="px-3 py-1 text-gray-600 font-semibold">User</th>
-                            <th className="px-3 py-1 text-gray-600 font-semibold">Joined at</th>
-                            <th className="px-3 py-1 text-gray-600 font-semibold">Role</th>
-                            <th className="px-3 py-1 text-gray-600 font-semibold">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td className="p-2">
-                               <div className="flex gap-2 items-center">
-                                    <div>
-                                        <img src={imageTest} alt="profile" className="w-14 h-14 rounded-full"/>
-                                    </div>
-                                    <div>
-                                        <h1 className="text-lg font-semibold">Soufian boukir</h1>
-                                        <span className="font-semibold text-sm text-gray-500">@soufian1_bo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="p-2 text-center font-semibold">13-11-2024</td>
-                            <td className="p-2 text-center">
-                                <select className="bg-gray-100 cursor-pointer font-semibold px-3 py-2 border border-gray-400 rounded-sm">
-                                    <option>Admin</option>
-                                    <option>Member</option>
-                                </select>
-                            </td>
-                            <td className="p-2 flex justify-center mt-2">
-                                <TrashIcon className="text-red-600 w-8 h-8"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="flex justify-center">
+                    {
+                        membersLoading && <CircularProgress />
+                    }
+                </div>
+                <div className="h-40 overflow-auto">
+                    <table className="w-full border-2 rounded-sm border-gray-300 table-auto">
+                        <thead>
+                            <tr>
+                                <th className="px-3 py-1 text-gray-600 font-semibold">User</th>
+                                <th className="px-3 py-1 text-gray-600 font-semibold">Joined at</th>
+                                <th className="px-3 py-1 text-gray-600 font-semibold">Role</th>
+                                <th className="px-3 py-1 text-gray-600 font-semibold">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                communityMembers && communityMembers.length?
+                                    communityMembers.map((member) =>{
+                                        return <tr>
+                                                    <td className="p-2">
+                                                    <div className="flex gap-2 items-center">
+                                                            <div>
+                                                                <img src={member.profile_picture} alt="profile" className="w-14 h-14 rounded-full"/>
+                                                            </div>
+                                                            <div>
+                                                                <h1 className="text-lg font-semibold">{member.full_name}</h1>
+                                                                <span className="font-semibold text-sm text-gray-500">@{member.username}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="p-2 text-center font-semibold">{moment(member.pivot.created_at).format("DD-MM-YYYY")}</td>
+                                                    <td className="p-2 text-center">
+                                                        <span>{member.pivot.role}</span>
+                                                    </td>
+                                                    <td className="p-2 flex justify-center mt-2">
+                                                        <TrashIcon className="text-red-600 w-8 h-8"/>
+                                                    </td>
+                                                </tr>
+                                    })
+                                :null
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div className="flex float-end gap-2 mt-5 w-[100%] lg:w-[50%]">

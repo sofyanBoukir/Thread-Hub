@@ -14,7 +14,7 @@ class Community extends Model
     ];
 
     public function members(){
-        return $this->belongsToMany(User::class, 'community_members')->withPivot("role");
+        return $this->belongsToMany(User::class, 'community_members')->withPivot("role","created_at");
     }
 
     public function threads(){

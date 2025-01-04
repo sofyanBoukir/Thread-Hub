@@ -14,6 +14,7 @@ export const Communities = () => {
     const [handleEditCommunity,setHandleEditCommunity] = useState(false)
     const [loading,setLoading] = useState(false);
     const [communities,setCommunities] = useState([]);
+    const [selectedCommunity, setSelectedCommunity] = useState(null);
 
 
     const getCommunities = async () =>{
@@ -50,7 +51,7 @@ export const Communities = () => {
                             {
                                 communities && communities.length?
                                     communities.map((community) =>{
-                                        return <SingleCommunity community={community} setHandleEditCommunity={setHandleEditCommunity} />                                        
+                                        return <SingleCommunity community={community} setSelectedCommunity={setSelectedCommunity} setHandleEditCommunity={setHandleEditCommunity} />                                        
                                     })
                                 :"No communities you have"
                             }
@@ -75,7 +76,7 @@ export const Communities = () => {
                 {
                     handleEditCommunity ?
                         <div className="flex justify-center w-[100%]">
-                            <EditCommunity handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
+                            <EditCommunity community={selectedCommunity} handleEditCommunity={handleEditCommunity} setHandleEditCommunity={setHandleEditCommunity}/>
                         </div>
                     :null
                 }

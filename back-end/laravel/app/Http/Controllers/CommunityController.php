@@ -108,7 +108,7 @@ class CommunityController extends Controller
     }
 
     public function getCommunityMembers(Request $request){
-        $members = Community::where("id",2)
+        $members = Community::where("id",$request->query('communityId'))
                         ->with("members")
                         ->get();
 

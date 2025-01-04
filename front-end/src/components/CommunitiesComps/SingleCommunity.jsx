@@ -1,10 +1,10 @@
-import { Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { Cog6ToothIcon, TrashIcon } from '@heroicons/react/24/outline'
 import communityImage from '../../../public/assets/communityDefaultImage.png'   
 import imageTest from '../../../public/assets/testImage.png'
 import { Button } from '../UI/Button'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
-export const SingleCommunity = ({community,editCommunity,setHandleEditCommunity}) => {
+export const SingleCommunity = ({setSelectedCommunity,community,editCommunity,setHandleEditCommunity}) => {
     const navigate = useNavigate();
   return (
     <div className='bg-dark w-[100%] lg:w-[48%] rounded-sm px-4 py-2'>
@@ -18,10 +18,15 @@ export const SingleCommunity = ({community,editCommunity,setHandleEditCommunity}
                     <span className="text-gray-500 font-semibold pr-5 cursor-pointer">Created {moment(community.created_at).fromNow()}</span>
                 </div>
             </div>
-            <div>
-                <Cog6ToothIcon className='w-6 h-6 text-blue-400 cursor-pointer hover:text-blue-600 duration-200'
-                onClick={() => setHandleEditCommunity(true)}/>
-            </div>
+            {
+                community.pivot.role === 'admin'?
+                <div className='flex gap-1'>
+                    <TrashIcon className='w-6 h-6 text-red-500 cursor-pointer hover:text-red-700 duration-200' />
+                    <Cog6ToothIcon className='w-6 h-6 text-blue-400 cursor-pointer hover:text-blue-600 duration-200'
+                    onClick={() => {setHandleEditCommunity(true);setSelectedCommunity(community)}}/>
+                </div>
+                : null
+            }
         </div>
         <div className='mt-5 flex justify-between'>
             <Button text='View' width='w-[20%]' bg={'bg-blue-500'} onClick={() => navigate(`/communities/community/${community.id}`)}/>

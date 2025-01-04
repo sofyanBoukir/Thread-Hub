@@ -47,8 +47,8 @@ Route::prefix("community")->group(function(){
     Route::get("/userCommunities",[CommunityController::class,"getUserCommunities"]);
     Route::get("/getSingleCommunity",[CommunityController::class,"getCommunityData"]);
     Route::post("/acceptCommunityInvitation",[CommunityController::class,"acceptCommunityInvitation"]);
+    Route::get("/getCommunityMembers",[CommunityController::class,'getCommunityMembers']);
 });
 
 
-Route::get("/getCommunityMembers",[CommunityController::class,'getCommunityMembers']);
-Route::get("/getUserCommunities",[CommunityController::class,'getUserCommunities']);
+// Route::get("/getUserCommunities",[CommunityController::class,'getUserCommunities']);
